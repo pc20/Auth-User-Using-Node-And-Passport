@@ -19,8 +19,14 @@ module.exports.profile = async function (req, res) {
 }
 
 module.exports.register = async function (req, res) {
+    console.log('registering new user');
+    console.log(req.body);
     let user = await User.findOne({ email: req.body.email });
     if (!user) {
+        if (req.body.password != req.body.confirmPass) {
+            req.flash('error', 'The password and confirmation password do not match.')
+            return res.redirect("/users/sign-up");
+        }
         user = await User.create({
             name: req.body.name,
             email: req.body.email,
@@ -33,6 +39,9 @@ module.exports.register = async function (req, res) {
             console.log("There is an error in creating the user");
             return res.redirect("/users/sign-up");
         }
+    } else {
+        req.flash('error', 'User already registered.')
+        return res.redirect("/users/sign-up");
     }
 }
 
