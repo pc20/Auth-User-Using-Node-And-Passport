@@ -1,0 +1,21 @@
+<header>
+    <nav style="display: flex;  justify-content: space-evenly; background-color: whitesmoke;">
+        <div>
+            <h2 style="color: black;">Welcome to Authentication System</h2>
+        </div>
+
+        <div style="display: flex; align-items: center;">
+            <% if (locals.user){ %>
+                <a style="color: black;" href="/users/profile">
+                    Hi <%= user.name %>
+                </a>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <a style="color: black;" href="/users/sign-out">Sign Out</a>
+                <% }else{ %>
+                    <a style="color: black;" href="/users/sign-in">Sign In</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a style="color: black;" href="/users/sign-up">Sign Up</a>
+                    <% } %>
+        </div>
+    </nav>
+</header>

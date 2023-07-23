@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <title>Profile</title>
+</head>
+
+<body>
+  <%- include('_header'); %>
+
+    <div class="container" id="profile">
+      <div class="box">
+        <p class="msg">Login Sucessful</p>
+        <div style="margin: 0%;padding: 0%;width: 100%;">
+          <p style="font-size: smaller;">
+            Name: <%= currUser.name %>
+          </p>
+          <p style="font-size: smaller; word-wrap: break-word; width: 90%;">
+            Email:<%= currUser.email %>
+          </p>
+        </div>
+      </div>
+      <!-- if user matches the show this form -->
+      <% if(id==currUser._id){ %>
+        <div class="box" style="text-align: center; justify-content: space-evenly; align-items: center;">
+          <div>
+            <% if(flash.success && flash.success.length> 0) {%>
+
+              <h6 style="color: green;">
+                <%= flash.success %>
+              </h6>
+
+              <% } %>
+                <% if(flash.error && flash.error.length> 0) {%>
+
+                  <h6 style="color: red;">
+                    <%= flash.error %>
+                  </h6>
+
+                  <% } %>
+          </div>
+          <div>
+            <h5>Change Your Password</h5>
+          </div>
+
+          <form action="/users/update/<%= currUser._id %>" method="POST">
+            <div style="display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
+              <div class="input-div"><input class="" type="password" name="old" placeholder="Old Password" required>
+              </div>
+              <div class="input-div"><input type="password" name="new" placeholder="New Password" required>
+              </div>
+              <div class="input-div"><input disabled name="email" placeholder="Your Email" value="<%= currUser.email %>"
+                  required></div>
+              <input class="btn" style="width: 50%; height: 25%;" type="submit" value='submit'>
+            </div>
+          </form>
+
+        </div>
+        <%} %>
+    </div>
+</body>
+
+</html>
