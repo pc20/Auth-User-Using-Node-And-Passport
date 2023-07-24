@@ -1,17 +1,16 @@
 const express = require('express');
 const app = express();
-const port = 8000;
+require("dotenv").config();
 const session = require("express-session");
 const passport = require("passport");
 const db = require("./config/mongoose");
+db();
 const passportLocal = require("./config/passport-local-strategy");
 const passportGoogleOAuth = require('./config/passport-google-oth');
 const flash = require("connect-flash");
 const customMiddleware = require('./config/flashMiddleware');
 
-const dotenv = require("dotenv");
-dotenv.config({ path: "./config.env" });
-const PORT = process.env.PORT;
+
 app.use(express.urlencoded());
 
 // set up the view engine
@@ -39,10 +38,11 @@ app.use(customMiddleware.setMsg);
 // use express router
 app.use('/', require('./routes'));
 
-app.listen(port, function (err) {
+const PORT = process.env.PORT;
+app.listen(PORT, function (err) {
     if (err) {
         console.log(`Error in running the server: ${err}`);
     }
 
-    console.log(`Server is running on port: ${port}`);
+    console.log(`Server is running on port: ${PORT}`);
 });
