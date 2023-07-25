@@ -16,8 +16,14 @@ router.post('/create-session', passport.authenticate(
     { failureRedirect: '/users/sign-in?error=true' },
 ), usersController.createSession);
 
+
+// for google account login, use passport oAuth2.0
+
+
+// redirect to google login page
 router.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
+// redirect back to create session once successfully login via google
 router.get("/auth/google/callback",
     passport.authenticate("google", { failureRedirect: "/users/sign-in" }),
     usersController.createSession

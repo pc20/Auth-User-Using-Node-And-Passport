@@ -1,12 +1,21 @@
+// express server
 const express = require('express');
 const app = express();
-require("dotenv").config();
 const session = require("express-session");
-const passport = require("passport");
+
+// for credentials
+require("dotenv").config();
+
+// db connections
 const db = require("./config/mongoose");
 db();
+
+// passport js initalisation
+const passport = require("passport");
 const passportLocal = require("./config/passport-local-strategy");
 const passportGoogleOAuth = require('./config/passport-google-oth');
+
+// for flash messages
 const flash = require("connect-flash");
 const customMiddleware = require('./config/flashMiddleware');
 
@@ -18,6 +27,7 @@ app.use(express.static("./assets"));
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
+// creating sessions
 app.use(
     session({
         name: "authenticateSystem",

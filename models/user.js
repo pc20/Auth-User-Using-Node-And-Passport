@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-
+// define user schema
 const userSchama = new mongoose.Schema(
     {
         name: {
@@ -22,10 +22,12 @@ const userSchama = new mongoose.Schema(
     }
 );
 
+// generate hash for the given passwrd
 userSchama.statics.generateHash = function (password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(9));
 };
 
+// check hashvalue with the stored password
 userSchama.statics.validPassword = function (password, user) {
     return bcrypt.compareSync(password, user);
 };

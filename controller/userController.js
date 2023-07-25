@@ -1,7 +1,9 @@
 const User = require("../models/user");
 
+// controller for profile page
 module.exports.profile = async function (req, res) {
     try {
+        // chc=eck if user exist with given id 
         let user = await User.findById(req.user.id);
         if (user) {
             return res.render('profile', {
@@ -18,15 +20,18 @@ module.exports.profile = async function (req, res) {
     }
 }
 
+// controller for resigtering user
 module.exports.register = async function (req, res) {
     console.log('registering new user');
     console.log(req.body);
     let user = await User.findOne({ email: req.body.email });
     if (!user) {
+        // if pass and cofirmation pass don't match
         if (req.body.password != req.body.confirmPass) {
             req.flash('error', 'The password and confirmation password do not match.')
             return res.redirect("/users/sign-up");
         }
+        // create user
         user = await User.create({
             name: req.body.name,
             email: req.body.email,
@@ -40,11 +45,13 @@ module.exports.register = async function (req, res) {
             return res.redirect("/users/sign-up");
         }
     } else {
+        // if user already exist
         req.flash('error', 'User already registered.')
         return res.redirect("/users/sign-up");
     }
 }
 
+// controller fro updating password
 module.exports.updatePass = async function (req, res) {
     const reCheckOldPass = User.validPassword(req.body.old, req.user.password);
     if (!reCheckOldPass) {
@@ -64,7 +71,9 @@ module.exports.updatePass = async function (req, res) {
     }
 }
 
+// controller for signout.
 module.exports.signOut = function (req, res) {
+    // destroy the session
     req.logout(function (err) {
         if (err) { return next(err); }
         req.flash("success", "You have logged out");
@@ -72,12 +81,14 @@ module.exports.signOut = function (req, res) {
     });
 };
 
+// signIn page
 module.exports.signIn = function (req, res) {
     return res.render('login', {
         error: req.query.error,
     });
 };
 
+// signUp page
 module.exports.signUp = function (req, res) {
     return res.render('signUp')
 }
